@@ -1,19 +1,11 @@
 using System.Text.Json;
+using Expenses.src.entities;
 
 namespace Expenses
 {
-    public class Row(int Id, string name, int value)
-    {
-        public int Id {get; set;} = Id;
-        public string Name { get; set; } = name;
-        public int Value { get; set; } = value;
-    }
 
-    public class DataFile(List<Row> Expenses, List<Row> Incomes)
-    {
-        public List<Row> Expenses { get; set; } = Expenses;
-        public List<Row> Incomes { get; set; } = Incomes;
-    }
+
+    
 
     public class Persistence
     {

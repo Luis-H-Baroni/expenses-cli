@@ -1,4 +1,6 @@
-namespace Expenses
+using Expenses.src.entities;
+
+namespace Expenses.src
 {
     public class Add
     {
@@ -11,13 +13,13 @@ namespace Expenses
                 case "expense":
                     Console.WriteLine($"Add - Expense - {name}: {value}");
                     AddExpense(name, value);
-
                     break;
 
                 case "income":
                     Console.WriteLine($"Add - Income - {name}: {value}");
                     AddIncome(name, value);
                     break;
+
                 default:
                     Console.WriteLine("Unknown add parameter");
                     break;
@@ -46,6 +48,7 @@ namespace Expenses
                 Console.WriteLine("Error parsing value");
                 return success;
             }
+            
             int id = persistence.generateId();
             Row row = new(id, name, result);
 

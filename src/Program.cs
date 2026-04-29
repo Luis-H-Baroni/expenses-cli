@@ -1,4 +1,6 @@
-﻿namespace Expenses
+﻿using Expenses.src;
+
+namespace Expenses
 {
     internal class Program
     {
