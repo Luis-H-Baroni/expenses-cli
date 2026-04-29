@@ -7,7 +7,7 @@ namespace Expenses
     {
         private readonly Persistence persistence = persistence;
 
-        public void generateReport()
+        public void GenerateReport()
         {
             DataFile data = persistence.getDataFile();
 

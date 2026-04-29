@@ -32,7 +32,7 @@ namespace Expenses.src
 
                 case "report":
                     Report report = new(persistence);
-                    report.generateReport();
+                    report.GenerateReport();
                     break;
 
                 default:
