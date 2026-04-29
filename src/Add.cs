@@ -22,6 +22,7 @@ namespace Expenses.src
 
                 default:
                     Console.WriteLine("Unknown add parameter");
+                    Console.WriteLine("Available add parameters: expense, income");
                     break;
             }
         }

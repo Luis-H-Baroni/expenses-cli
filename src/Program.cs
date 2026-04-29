@@ -1,8 +1,7 @@
 ﻿using System.Text.Json;
-using Expenses.src;
 using Expenses.src.entities;
 
-namespace Expenses
+namespace Expenses.src
 {
     internal class Program
     {
@@ -38,6 +37,7 @@ namespace Expenses
 
                 default:
                     Console.WriteLine("Unknown command");
+                    Console.WriteLine("Available commands: add, report");
                     break;
             }
         }
