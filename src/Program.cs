@@ -1,4 +1,6 @@
-﻿using Expenses.src;
+﻿using System.Text.Json;
+using Expenses.src;
+using Expenses.src.entities;
 
 namespace Expenses
 {
@@ -11,20 +13,30 @@ namespace Expenses
             string name = args.Length > 2 ? args[2] : string.Empty;
             string value = args.Length > 3 ? args[3] : string.Empty;
 
+            bool fileExists = File.Exists("data.json");
+            if (fileExists == false)
+            {
+                string dataJson = JsonSerializer.Serialize(new DataFile([],[]));
+                File.WriteAllText("data.json", dataJson);
+            }
+
+            string jsonString = File.ReadAllText("data.json");
+            DataFile? data = JsonSerializer.Deserialize<DataFile>(jsonString) ?? throw new Exception("Could not load data file");
+            Persistence persistence = new(data);    
+
             switch (command)
             {
                 case "add":
-                    Add add = new();
+                    Add add = new(persistence);
                     add.Entrypoint(parameter, name, value);
-                    
                     break;
 
                 case "report":
-                    Report report = new();
+                    Report report = new(persistence);
                     report.generateReport();
                     break;
+
                 default:
-                    
                     Console.WriteLine("Unknown command");
                     break;
             }

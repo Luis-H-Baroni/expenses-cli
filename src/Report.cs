@@ -3,16 +3,16 @@ using Expenses.src.entities;
 namespace Expenses
 {
     
-    public class Report
+    public class Report(Persistence persistence)
     {
-        private readonly Persistence persistence = new();
+        private readonly Persistence persistence = persistence;
 
         public void generateReport()
         {
-            DataFile data = persistence.ReadAndParse();
+            DataFile data = persistence.getDataFile();
+
             int expensesTotal = 0;
             int incomesTotal = 0;
-
 
             foreach (var row in data.Expenses)
             {
@@ -27,7 +27,6 @@ namespace Expenses
 
             ReportContent newReport = new(expensesTotal, incomesTotal, balance);
             newReport.PrintReport();
-
         }
     }
 }

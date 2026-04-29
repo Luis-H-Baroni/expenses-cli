@@ -12,3 +12,4 @@
 /home/luisbaroni/development/Expenses/obj/Debug/net10.0/Expenses.pdb
 /home/luisbaroni/development/Expenses/obj/Debug/net10.0/Expenses.genruntimeconfig.cache
 /home/luisbaroni/development/Expenses/obj/Debug/net10.0/ref/Expenses.dll
+/home/luisbaroni/development/Expenses/obj/Debug/net10.0/Expenses.sourcelink.json

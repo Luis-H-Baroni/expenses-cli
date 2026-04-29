@@ -2,9 +2,9 @@ using Expenses.src.entities;
 
 namespace Expenses.src
 {
-    public class Add
+    public class Add(Persistence persistence)
     {
-        private readonly Persistence persistence = new();
+        private readonly Persistence persistence = persistence;
         public void Entrypoint(string parameter, string name, string value)
         {
             Console.WriteLine($"Add - Parameters: {parameter}");
