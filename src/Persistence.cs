@@ -43,6 +43,35 @@ namespace Expenses
             return true;
         }
 
+        public bool RemoveExpensesFromFile(int id)
+        {
+            Row? itemForDeletion = DataFile.Expenses.Find(x => x.Id == id) ?? throw new Exception("Item not found");
+
+            int indexToDelete = DataFile.Expenses.IndexOf(itemForDeletion);
+            Console.WriteLine($"RemoveExpensesFromFile - {indexToDelete}");
+
+            DataFile.Expenses.RemoveAt(indexToDelete);
+
+            string updatedJson = JsonSerializer.Serialize(DataFile);
+            File.WriteAllText("data.json", updatedJson);
+
+            return true;
+        }
+
+        public bool RemoveIncomesFromFile(int id)
+        {
+            Row? itemForDeletion = DataFile.Incomes.Find(x => x.Id == id) ?? throw new Exception("Item not found");
+
+            int indexToDelete = DataFile.Incomes.IndexOf(itemForDeletion);
+            Console.WriteLine($"RemoveIncomesFromFile - {indexToDelete}");
+
+            DataFile.Incomes.RemoveAt(indexToDelete);
+
+            string updatedJson = JsonSerializer.Serialize(DataFile);
+            File.WriteAllText("data.json", updatedJson);
+
+            return true;
+        }
         public int generateId()
         {
             return Random.Shared.Next(1, 99999);

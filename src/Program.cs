@@ -12,33 +12,48 @@ namespace Expenses.src
             string name = args.Length > 2 ? args[2] : string.Empty;
             string value = args.Length > 3 ? args[3] : string.Empty;
 
-            bool fileExists = File.Exists("data.json");
-            if (fileExists == false)
+            Persistence persistence = new(LoadDataFile());
+
+            try
             {
-                string dataJson = JsonSerializer.Serialize(new DataFile([],[]));
-                File.WriteAllText("data.json", dataJson);
+                switch (command)
+                {
+                    case "add":
+                        new Add(persistence).Entrypoint(parameter, name, value);
+                        break;
+
+                    case "remove":
+                        new Remove(persistence).Entrypoint(parameter, name);
+                        break;
+
+                    case "report":
+                        new Report(persistence).GenerateReport();
+                        break;
+
+                    default:
+                        Console.WriteLine("Unknown command");
+                        Console.WriteLine("Available commands: add, report");
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error ocurred: {e}");
             }
 
-            string jsonString = File.ReadAllText("data.json");
-            DataFile? data = JsonSerializer.Deserialize<DataFile>(jsonString) ?? throw new Exception("Could not load data file");
-            Persistence persistence = new(data);    
-
-            switch (command)
+            DataFile LoadDataFile()
             {
-                case "add":
-                    Add add = new(persistence);
-                    add.Entrypoint(parameter, name, value);
-                    break;
+                bool fileExists = File.Exists("data.json");
+                if (fileExists == false)
+                {
+                    string dataJson = JsonSerializer.Serialize(new DataFile([], []));
+                    File.WriteAllText("data.json", dataJson);
+                }
 
-                case "report":
-                    Report report = new(persistence);
-                    report.GenerateReport();
-                    break;
+                string jsonString = File.ReadAllText("data.json");
+                DataFile? data = JsonSerializer.Deserialize<DataFile>(jsonString) ?? throw new Exception("Could not load data file");
 
-                default:
-                    Console.WriteLine("Unknown command");
-                    Console.WriteLine("Available commands: add, report");
-                    break;
+                return data;
             }
         }
     }

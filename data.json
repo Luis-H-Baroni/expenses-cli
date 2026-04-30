@@ -14,11 +14,6 @@
             "Id": 23710,
             "Name": "food",
             "Value": 192
-        },
-        {
-            "Id": 72291,
-            "Name": "food",
-            "Value": 192
         }
     ],
     "Incomes": [
@@ -26,11 +21,6 @@
             "Id": 58109,
             "Name": "salary",
             "Value": 2888
-        },
-        {
-            "Id": 93083,
-            "Name": "salary",
-            "Value": 1000
         }
     ]
 }
