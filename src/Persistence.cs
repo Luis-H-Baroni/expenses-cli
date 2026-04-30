@@ -24,8 +24,6 @@ namespace Expenses
             Console.WriteLine($"AddToFile - {newRow.Name}, {newRow.Value}");
             string updatedJson = JsonSerializer.Serialize(DataFile);
 
-            Console.WriteLine($"AddToFile - {updatedJson}");
-
             File.WriteAllText("data.json", updatedJson);
             return true;
         }
@@ -36,8 +34,6 @@ namespace Expenses
 
             Console.WriteLine($"AddToFile - {row.Name}, {row.Value}");
             string updatedJson = JsonSerializer.Serialize(DataFile);
-
-            Console.WriteLine($"AddToFile - {updatedJson}");
 
             File.WriteAllText("data.json", updatedJson);
             return true;

@@ -20,14 +20,21 @@ namespace Expenses.src
                 {
                     case "add":
                         new Add(persistence).Entrypoint(parameter, name, value);
+                        new Report(persistence).ListAll();
                         break;
 
                     case "remove":
                         new Remove(persistence).Entrypoint(parameter, name);
+                        new Report(persistence).ListAll();
                         break;
 
                     case "report":
+                        new Report(persistence).ListAll();
                         new Report(persistence).GenerateReport();
+                        break;
+
+                    case "list":
+                        new Report(persistence).ListAll();
                         break;
 
                     default:
