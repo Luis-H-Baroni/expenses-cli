@@ -2,9 +2,9 @@ namespace Expenses.src
 {
     public class Remove(Persistence persistence)
     {
-        private Persistence persistence = persistence;
+        private readonly Persistence persistence = persistence;
 
-        public void Entrypoint( int id)
+        public void Entrypoint(int id)
         {
             RemoveTransaction(id);
             new Report(persistence).ListAll();

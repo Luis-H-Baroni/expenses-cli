@@ -34,22 +34,14 @@ namespace Expenses
 
         public void ListAll(int month = 0, int year = 0)
         {
-            Console.WriteLine("ID      TYPE       NAME     AMOUNT       CREATED AT");
+            Console.WriteLine("ID      TYPE        NAME          AMOUNT       CREATED AT");
             List<Transaction> data = persistence.getDataFile();
-            List<Transaction> ExpenseList = data.Where(t => t.Type == "expense").Select(t => new Transaction(t.Id, t.Type, t.Name, t.Amount, t.CreatedAt)).ToList();
-            List<Transaction> IncomeList = data.Where(t => t.Type == "income").Select(t => new Transaction(t.Id, t.Type, t.Name, t.Amount, t.CreatedAt)).ToList();
-
-            foreach (var row in ExpenseList)
+            
+            foreach (var row in data)
             {
                 if (month != 0 && row.CreatedAt.Month != month) continue;
                 if (year != 0 && row.CreatedAt.Year != year) continue;
-                Console.WriteLine($"{row.Id}   {row.Type}    {row.Name}    ${ParseAmount(row.Amount)}       {row.CreatedAt}");
-            }
-            foreach (var row in IncomeList)
-            {
-                if (month != 0 && row.CreatedAt.Month != month) continue;
-                if (year != 0 && row.CreatedAt.Year != year) continue;
-                Console.WriteLine($"{row.Id}   {row.Type}    {row.Name}    ${ParseAmount(row.Amount)}       {row.CreatedAt}");
+                Console.WriteLine($"{row.Id,-8}{row.Type,-12}{row.Name,-14}${ParseAmount(row.Amount),-12}{row.CreatedAt:yyyy-MM-dd}");
             }
         }
 

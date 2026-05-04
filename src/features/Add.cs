@@ -6,9 +6,9 @@ namespace Expenses.src
     {
         private readonly Persistence persistence = persistence;
 
-        public void Entrypoint(string parameter, string name, int amount)
+        public void Entrypoint(string command, string name, int amount)
         {
-            switch (parameter)
+            switch (command)
             {
                 case "expense":
                     Console.WriteLine($"Add - Expense - {name}: {amount}");
@@ -18,11 +18,6 @@ namespace Expenses.src
                 case "income":
                     Console.WriteLine($"Add - Income - {name}: {amount}");
                     AddIncome(name, amount);
-                    break;
-
-                default:
-                    Console.WriteLine("Unknown add parameter");
-                    Console.WriteLine("Available add parameters: expense, income");
                     break;
             }
 

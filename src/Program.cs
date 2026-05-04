@@ -10,31 +10,31 @@ namespace Expenses.src
         {
             Persistence persistence = new(LoadDataFile());
 
-            Option<string> nameParameter = new("--name")
+            Option<string> nameOption = new("--name")
             {
                 Description = "Transaction display name (\"food\", \"gas\")",
                 Required = true
             };
-            Option<int> amountParameter = new("--amount")
+            Option<int> amountOption = new("--amount")
             {
                 Description = "Amount in cents to be registered (1050 -> 10.50)",
                 Required = true
             };
-            Option<string> transactionTypeParameter = new("--type")
+            Option<string> transactionTypeOption = new("--type")
             {
                 Description = "Type of transaction (expense, income)",
                 Required = true
             };
-            Option<int> idParameter = new("--id")
+            Option<int> idOption = new("--id")
             {
                 Description = "Transaction id",
                 Required = true
             };
-            Option<int> monthParameter = new("--month")
+            Option<int> monthOption = new("--month")
             {
                 Description = "Month for report generation (1-12)",
             };
-            Option<int> yearParameter = new("--year")
+            Option<int> yearOption = new("--year")
             {
                 Description = "year for report generation",
             };
@@ -42,23 +42,23 @@ namespace Expenses.src
             RootCommand rootCommand = new("Personal expenses cli app");
             Command addCommand = new("add", "Adds a new transaction")
             {
-                transactionTypeParameter,
-                nameParameter,
-                amountParameter
+                transactionTypeOption,
+                nameOption,
+                amountOption
             };
             Command removeCommand = new("remove", "Removes an existing transation")
             {
-                idParameter
+                idOption
             };
             Command reportCommand = new("report", "Generates an expenses report")
             {
-                monthParameter,
-                yearParameter
+                monthOption,
+                yearOption
             };
             Command listCommand = new("list", "List all transactions")
             {
-                monthParameter,
-                yearParameter
+                monthOption,
+                yearOption
             };
 
             rootCommand.Subcommands.Add(addCommand);
@@ -68,27 +68,27 @@ namespace Expenses.src
 
             addCommand.SetAction(parseResult =>
             {
-                string type = parseResult.GetValue(transactionTypeParameter)
+                string type = parseResult.GetValue(transactionTypeOption)
                     ?? throw new ArgumentException("Missing required option --type");
-                string name = parseResult.GetValue(nameParameter)
+                string name = parseResult.GetValue(nameOption)
                     ?? throw new ArgumentException("Missing required option --name");
-                int amount = parseResult.GetValue(amountParameter);
+                int amount = parseResult.GetValue(amountOption);
 
                 new Add(persistence).Entrypoint(type, name, amount);
             });
             removeCommand.SetAction(parseResult =>
             {
-                int id = parseResult.GetValue(idParameter);
+                int id = parseResult.GetValue(idOption);
 
                 new Remove(persistence).Entrypoint(id);
             });
             listCommand.SetAction(parseResult => new Report(persistence).ListAll(
-                parseResult.GetValue(monthParameter),
-                parseResult.GetValue(yearParameter)
+                parseResult.GetValue(monthOption),
+                parseResult.GetValue(yearOption)
             ));
             reportCommand.SetAction(parseResult => new Report(persistence).GenerateReport(
-                parseResult.GetValue(monthParameter),
-                parseResult.GetValue(yearParameter)
+                parseResult.GetValue(monthOption),
+                parseResult.GetValue(yearOption)
             ));
 
             return rootCommand.Parse(args).Invoke();
