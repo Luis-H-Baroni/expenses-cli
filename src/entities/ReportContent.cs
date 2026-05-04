@@ -9,11 +9,18 @@ namespace Expenses.src.entities
         public void PrintReport()
         {
             Console.WriteLine("+----- REPORT -----+");
-            Console.WriteLine($"TOTAL EXPENSES: {ExpensesTotal}");
-            Console.WriteLine($"TOTAL INCOMES: {IncomesTotal}");
+            Console.WriteLine($"TOTAL EXPENSES: ${ParseAmount(ExpensesTotal)}");
+            Console.WriteLine($"TOTAL INCOMES: ${ParseAmount(IncomesTotal)}");
             Console.WriteLine("--------------------");
-            Console.WriteLine($"BALANCE: {Balance}");
+            Console.WriteLine($"BALANCE: ${ParseAmount(Balance)}");
             Console.WriteLine("+------------------+");
         }
-    }
+
+        public float ParseAmount(int Amount)
+        {
+            return (float)Amount / 100;
+        }
+    };
+
+
 }

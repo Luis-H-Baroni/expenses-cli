@@ -4,8 +4,7 @@ namespace Expenses.src
     {
         private Persistence persistence = persistence;
 
-
-        public void Entrypoint(string parameter, string id)
+        public void Entrypoint(string parameter, int id)
         {
             Console.WriteLine($"Remove - Parameters: {parameter}");
             switch (parameter)
@@ -25,31 +24,19 @@ namespace Expenses.src
                     Console.WriteLine("Available remove parameters: expense, income");
                     break;
             }
+
+            new Report(persistence).ListAll();
         }
 
-        private bool RemoveExpense(string id)
+        private bool RemoveExpense(int id)
         {
-            bool success = int.TryParse(id, out int result);
-            if (!success)
-            {
-                Console.WriteLine("Error parsing value");
-                return success;
-            }
-
-            persistence.RemoveExpensesFromFile(result);
+            persistence.RemoveExpensesFromFile(id);
             return true;
         }
 
-        private bool RemoveIncome(string id)
+        private bool RemoveIncome(int id)
         {
-            bool success = int.TryParse(id, out int result);
-            if (!success)
-            {
-                Console.WriteLine("Error parsing value");
-                return success;
-            }
-
-            persistence.RemoveIncomesFromFile(result);
+            persistence.RemoveIncomesFromFile(id);
             return true;
         }
     }
