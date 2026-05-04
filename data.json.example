@@ -2,14 +2,14 @@
     {
         "Id": 47253,
         "Type": "income",
-        "Name": "teste",
+        "Name": "interest",
         "Amount": 1050,
         "CreatedAt": "0001-01-01T00:00:00"
     },
     {
         "Id": 68431,
         "Type": "expense",
-        "Name": "teste",
+        "Name": "candy",
         "Amount": 950,
         "CreatedAt": "0001-01-01T00:00:00"
     },
@@ -23,7 +23,7 @@
     {
         "Id": 62445,
         "Type": "income",
-        "Name": "work",
+        "Name": "payment",
         "Amount": 230000,
         "CreatedAt": "2026-05-04T16:02:08.9303692-03:00"
     }
