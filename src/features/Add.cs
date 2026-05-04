@@ -1,10 +1,11 @@
 using Expenses.src.entities;
+using Expenses.src.persistence;
 
 namespace Expenses.src
 {
-    public class Add(Persistence persistence)
+    public class Add(IPersistence persistence)
     {
-        private readonly Persistence persistence = persistence;
+        private readonly IPersistence persistence = persistence;
 
         public void Entrypoint(string command, string name, int amount)
         {
@@ -26,18 +27,16 @@ namespace Expenses.src
 
         private bool AddExpense(string name, int amount)
         {
-            int id = persistence.generateId();
-            Transaction Transaction = new(id, "expense", name, amount, DateTime.Now);
+            Transaction Transaction = new(0, "expense", name, amount, DateTime.Now);
 
-            return persistence.AddExpensesToFile(Transaction);
+            return persistence.Add(Transaction);
         }
 
         private bool AddIncome(string name, int amount)
         {
-            int id = persistence.generateId();
-            Transaction Transaction = new(id, "income", name, amount, DateTime.Now);
+            Transaction Transaction = new(0, "income", name, amount, DateTime.Now);
 
-            return persistence.AddIncomesToFile(Transaction);
+            return persistence.Add(Transaction);
         }
     }
 }

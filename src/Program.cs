@@ -1,6 +1,5 @@
 ﻿using System.CommandLine;
-using System.Text.Json;
-using Expenses.src.entities;
+using Expenses.src.persistence;
 
 namespace Expenses.src
 {
@@ -8,7 +7,14 @@ namespace Expenses.src
     {
         private static int Main(string[] args)
         {
-            Persistence persistence = new(LoadDataFile());
+            IPersistence ResolvePersistence(bool useFile)
+            {
+                return useFile switch
+                {
+                    true => new FilePersistence(),
+                    false => new SqlitePersistence(),
+                };
+            }
 
             Option<string> nameOption = new("--name")
             {
@@ -38,8 +44,14 @@ namespace Expenses.src
             {
                 Description = "year for report generation",
             };
+            Option<bool> useFileOption = new("--use-file")
+            {
+                Description = "Use file persistence instead of sqlite",
+            };
 
             RootCommand rootCommand = new("Personal expenses cli app");
+            rootCommand.Options.Add(useFileOption);
+
             Command addCommand = new("add", "Adds a new transaction")
             {
                 transactionTypeOption,
@@ -74,40 +86,37 @@ namespace Expenses.src
                     ?? throw new ArgumentException("Missing required option --name");
                 int amount = parseResult.GetValue(amountOption);
 
+                IPersistence persistence = ResolvePersistence(parseResult.GetValue(useFileOption));
+
                 new Add(persistence).Entrypoint(type, name, amount);
             });
             removeCommand.SetAction(parseResult =>
             {
                 int id = parseResult.GetValue(idOption);
 
+                IPersistence persistence = ResolvePersistence(parseResult.GetValue(useFileOption));
                 new Remove(persistence).Entrypoint(id);
             });
-            listCommand.SetAction(parseResult => new Report(persistence).ListAll(
-                parseResult.GetValue(monthOption),
-                parseResult.GetValue(yearOption)
-            ));
-            reportCommand.SetAction(parseResult => new Report(persistence).GenerateReport(
-                parseResult.GetValue(monthOption),
-                parseResult.GetValue(yearOption)
-            ));
+            listCommand.SetAction(parseResult =>
+            {
+                IPersistence persistence = ResolvePersistence(parseResult.GetValue(useFileOption));
+                new Report(persistence).ListAll(
+                    parseResult.GetValue(monthOption),
+                    parseResult.GetValue(yearOption)
+                );
+            });
+            reportCommand.SetAction(parseResult =>
+            {
+                IPersistence persistence = ResolvePersistence(parseResult.GetValue(useFileOption));
+                new Report(persistence).GenerateReport(
+                    parseResult.GetValue(monthOption),
+                    parseResult.GetValue(yearOption)
+                );
+            });
 
             return rootCommand.Parse(args).Invoke();
-
-            List<Transaction> LoadDataFile()
-            {
-                bool fileExists = File.Exists("data.json");
-                if (fileExists == false)
-                {
-                    string dataJson = JsonSerializer.Serialize(new List<Transaction>());
-                    File.WriteAllText("data.json", dataJson);
-                }
-
-                string jsonString = File.ReadAllText("data.json");
-                List<Transaction>? data = JsonSerializer.Deserialize<List<Transaction>>(jsonString)
-                ?? throw new Exception("Could not load data file");
-
-                return data;
-            }
         }
+
+
     }
 }

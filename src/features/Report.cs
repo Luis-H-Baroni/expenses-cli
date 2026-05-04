@@ -1,15 +1,16 @@
 using Expenses.src.entities;
+using Expenses.src.persistence;
 
 namespace Expenses
 {
 
-    public class Report(Persistence persistence)
+    public class Report(IPersistence persistence)
     {
-        private readonly Persistence persistence = persistence;
+        private readonly IPersistence persistence = persistence;
 
         public void GenerateReport(int month = 0, int year = 0)
         {
-            List<Transaction> data = persistence.getDataFile();
+            List<Transaction> data = persistence.GetAll();
 
             int expensesTotal = 0;
             int incomesTotal = 0;
@@ -35,7 +36,7 @@ namespace Expenses
         public void ListAll(int month = 0, int year = 0)
         {
             Console.WriteLine("ID      TYPE        NAME          AMOUNT       CREATED AT");
-            List<Transaction> data = persistence.getDataFile();
+            List<Transaction> data = persistence.GetAll();
             
             foreach (var row in data)
             {

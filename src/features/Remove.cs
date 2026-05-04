@@ -1,8 +1,10 @@
+using Expenses.src.persistence;
+
 namespace Expenses.src
 {
-    public class Remove(Persistence persistence)
+    public class Remove(IPersistence persistence)
     {
-        private readonly Persistence persistence = persistence;
+        private readonly IPersistence persistence = persistence;
 
         public void Entrypoint(int id)
         {
@@ -12,7 +14,7 @@ namespace Expenses.src
 
         private bool RemoveTransaction(int id)
         {
-            persistence.RemoveTransactionFromFile(id);
+            persistence.Remove(id);
             return true;
         }
     }
