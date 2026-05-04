@@ -4,39 +4,15 @@ namespace Expenses.src
     {
         private Persistence persistence = persistence;
 
-        public void Entrypoint(string parameter, int id)
+        public void Entrypoint( int id)
         {
-            Console.WriteLine($"Remove - Parameters: {parameter}");
-            switch (parameter)
-            {
-                case "expense":
-                    Console.WriteLine($"Remove - Expense - {id}");
-                    RemoveExpense(id);
-                    break;
-
-                case "income":
-                    RemoveIncome(id);
-                    Console.WriteLine($"Remove - Income - {id}");
-                    break;
-
-                default:
-                    Console.WriteLine("Unknown remove parameter");
-                    Console.WriteLine("Available remove parameters: expense, income");
-                    break;
-            }
-
+            RemoveTransaction(id);
             new Report(persistence).ListAll();
         }
 
-        private bool RemoveExpense(int id)
+        private bool RemoveTransaction(int id)
         {
-            persistence.RemoveExpensesFromFile(id);
-            return true;
-        }
-
-        private bool RemoveIncome(int id)
-        {
-            persistence.RemoveIncomesFromFile(id);
+            persistence.RemoveTransactionFromFile(id);
             return true;
         }
     }

@@ -37,12 +37,12 @@ namespace Expenses
             return true;
         }
 
-        public bool RemoveExpensesFromFile(int id)
+        public bool RemoveTransactionFromFile(int id)
         {
             Transaction? itemForDeletion = DataFile.Find(x => x.Id == id) ?? throw new Exception("Item not found");
 
             int indexToDelete = DataFile.IndexOf(itemForDeletion);
-            Console.WriteLine($"RemoveExpensesFromFile - {indexToDelete}");
+            Console.WriteLine($"RemoveTransactionFromFile - {indexToDelete}");
 
             DataFile.RemoveAt(indexToDelete);
 
@@ -52,21 +52,7 @@ namespace Expenses
             return true;
         }
 
-        public bool RemoveIncomesFromFile(int id)
-        {
-            Transaction? itemForDeletion = DataFile.Find(x => x.Id == id) ?? throw new Exception("Item not found");
-
-            int indexToDelete = DataFile.IndexOf(itemForDeletion);
-            Console.WriteLine($"RemoveIncomesFromFile - {indexToDelete}");
-
-            DataFile.RemoveAt(indexToDelete);
-
-            string updatedJson = JsonSerializer.Serialize(DataFile);
-            File.WriteAllText("data.json", updatedJson);
-
-            return true;
-        }
-        public int generateId()
+                public int generateId()
         {
             return Random.Shared.Next(1, 99999);
         }

@@ -30,6 +30,14 @@ namespace Expenses.src
                 Description = "Transaction id",
                 Required = true
             };
+            Option<int> monthParameter = new("--month")
+            {
+                Description = "Month for report generation (1-12)",
+            };
+            Option<int> yearParameter = new("--year")
+            {
+                Description = "year for report generation",
+            };
 
             RootCommand rootCommand = new("Personal expenses cli app");
             Command addCommand = new("add", "Adds a new transaction")
@@ -40,11 +48,18 @@ namespace Expenses.src
             };
             Command removeCommand = new("remove", "Removes an existing transation")
             {
-                transactionTypeParameter,
                 idParameter
             };
-            Command reportCommand = new("report", "Generates an expenses report");
-            Command listCommand = new("list", "List all transactions");
+            Command reportCommand = new("report", "Generates an expenses report")
+            {
+                monthParameter,
+                yearParameter
+            };
+            Command listCommand = new("list", "List all transactions")
+            {
+                monthParameter,
+                yearParameter
+            };
 
             rootCommand.Subcommands.Add(addCommand);
             rootCommand.Subcommands.Add(removeCommand);
@@ -63,14 +78,18 @@ namespace Expenses.src
             });
             removeCommand.SetAction(parseResult =>
             {
-                string type = parseResult.GetValue(transactionTypeParameter)
-                    ?? throw new ArgumentException("Missing required option --type");
                 int id = parseResult.GetValue(idParameter);
 
-                new Remove(persistence).Entrypoint(type, id);
+                new Remove(persistence).Entrypoint(id);
             });
-            listCommand.SetAction(parseResult => new Report(persistence).ListAll());
-            reportCommand.SetAction(parseResult => new Report(persistence).GenerateReport());
+            listCommand.SetAction(parseResult => new Report(persistence).ListAll(
+                parseResult.GetValue(monthParameter),
+                parseResult.GetValue(yearParameter)
+            ));
+            reportCommand.SetAction(parseResult => new Report(persistence).GenerateReport(
+                parseResult.GetValue(monthParameter),
+                parseResult.GetValue(yearParameter)
+            ));
 
             return rootCommand.Parse(args).Invoke();
 
@@ -84,7 +103,7 @@ namespace Expenses.src
                 }
 
                 string jsonString = File.ReadAllText("data.json");
-                List<Transaction>? data = JsonSerializer.Deserialize<List<Transaction>>(jsonString) 
+                List<Transaction>? data = JsonSerializer.Deserialize<List<Transaction>>(jsonString)
                 ?? throw new Exception("Could not load data file");
 
                 return data;

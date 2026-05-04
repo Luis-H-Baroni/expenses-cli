@@ -1,1 +1,30 @@
-[{"Id":47253,"Type":"income","Name":"teste","Amount":1050,"CreatedAt":"0001-01-01T00:00:00"},{"Id":68431,"Type":"expense","Name":"teste","Amount":950,"CreatedAt":"0001-01-01T00:00:00"},{"Id":13867,"Type":"expense","Name":"teste","Amount":95000,"CreatedAt":"0001-01-01T00:00:00"},{"Id":20435,"Type":"expense","Name":"teste","Amount":95000,"CreatedAt":"2026-05-04T12:01:52.1604537-03:00"}]
+[
+    {
+        "Id": 47253,
+        "Type": "income",
+        "Name": "teste",
+        "Amount": 1050,
+        "CreatedAt": "0001-01-01T00:00:00"
+    },
+    {
+        "Id": 68431,
+        "Type": "expense",
+        "Name": "teste",
+        "Amount": 950,
+        "CreatedAt": "0001-01-01T00:00:00"
+    },
+    {
+        "Id": 19789,
+        "Type": "expense",
+        "Name": "food",
+        "Amount": 15000,
+        "CreatedAt": "2026-05-04T16:01:39.1143467-03:00"
+    },
+    {
+        "Id": 62445,
+        "Type": "income",
+        "Name": "work",
+        "Amount": 230000,
+        "CreatedAt": "2026-05-04T16:02:08.9303692-03:00"
+    }
+]
